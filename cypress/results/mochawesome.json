@@ -1,0 +1,148 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 2,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-01-14T21:36:58.162Z",
+    "end": "2023-01-14T21:37:08.830Z",
+    "duration": 10668,
+    "testsRegistered": 3,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "e6ff8096-5413-4d81-afce-0c92ec1e4415",
+      "title": "",
+      "fullFile": "cypress\\integration\\examples\\TestCase01.js",
+      "file": "cypress\\integration\\examples\\TestCase01.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b464a973-388d-478a-af1f-18d36dc575e1",
+          "title": "My First Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "AddToCart functionality",
+              "fullTitle": "My First Test AddToCart functionality",
+              "timedOut": null,
+              "duration": 2522,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "this.testData.forEach(function (testData) {\n  if (testData.ToBeExecuted === \"Yes\") {\n    //verify title\n    cy.verifyTitle('Products');\n    //select products\n    testData.productName.forEach(elmProduct => {\n      cy.selectProduct(elmProduct);\n    });\n    //click on the cart link\n    homePage.getShoppingCartLink().click();\n    //cart page\n    cy.verifyTitle('Your Cart');\n    //cart page\n    cy.get(\".cart_list\").find(\".cart_item\").each(($el, index, $list) => {\n      testData.productName.forEach(elmProduct => {\n        if ($el.find('.inventory_item_name').text() === elmProduct) {\n          cy.log(elmProduct + \":products exist\");\n        }\n      });\n    });\n    cartPage.getCartFooter().find(\"#checkout\").click();\n    //Checkout page title\n    cy.verifyTitle('Checkout: Your Information');\n    //checkout information page\n    //firstName\n    checkoutInformation.getFirstName().type(testData.firstName);\n    //lastName\n    checkoutInformation.getLastName().type(testData.lastName);\n    //postalCode\n    checkoutInformation.getPostalCode().type(testData.postalCode);\n    //click on primary button\n    checkoutInformation.getPrimaryButton().click();\n    //checkout overview page\n    checkoutOverview.getCartList().find(\".cart_item\").each(($el, index, $list) => {\n      testData.productName.forEach(elmProduct => {\n        if ($el.find(checkoutOverview.getCartItemName()).text() === elmProduct) {\n          cy.log(elmProduct + \":products exist\");\n        }\n      });\n    });\n    cy.contains(\"Finish\").click();\n    checkoutComplete.getCheckoutComplete().find(\".complete-header\").should('have.text', 'THANK YOU FOR YOUR ORDER');\n    //navigate to home page\n    checkoutComplete.getBackToHome().click();\n    cy.verifyTitle('Products');\n  }\n});",
+              "err": {},
+              "uuid": "2796a6e2-e59c-43c2-b787-df104720053a",
+              "parentUUID": "b464a973-388d-478a-af1f-18d36dc575e1",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Products price validation",
+              "fullTitle": "My First Test Products price validation",
+              "timedOut": null,
+              "duration": 1227,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let totalPrice = 0;\nlet priceValue = 0;\nthis.testData.forEach(function (testData) {\n  if (testData.ToBeExecuted === \"Yes\") {\n    //select products\n    testData.productName.forEach(elmProduct => {\n      cy.selectProduct(elmProduct);\n    });\n    //click on the cart link\n    homePage.getShoppingCartLink().click();\n    //cart page\n    cy.verifyTitle('Your Cart');\n    //cart page\n    cy.get(\".cart_list\").find(\".cart_item\").each(($el, index, $list) => {\n      testData.productName.forEach(elmProduct => {\n        if ($el.find('.inventory_item_name').text() === elmProduct) {\n          cy.log(elmProduct + \":products exist\");\n          priceValue = Number($el.find('.inventory_item_price').text().trim().replace(\"$\", \"\"));\n          totalPrice = totalPrice + priceValue;\n        }\n      });\n    }).then(function () {\n      cy.log(\"totalPrice:\" + totalPrice);\n    });\n    cartPage.getCartFooter().find(\"#checkout\").click();\n    //Checkout page title\n    cy.verifyTitle('Checkout: Your Information');\n    //checkout information page\n    //firstName\n    checkoutInformation.getFirstName().type(testData.firstName);\n    //lastName\n    checkoutInformation.getLastName().type(testData.lastName);\n    //postalCode\n    checkoutInformation.getPostalCode().type(testData.postalCode);\n    //click on primary button\n    checkoutInformation.getPrimaryButton().click();\n    //checkout overview page\n    let actualTotal = 0;\n    cy.get(\".summary_subtotal_label\").then(function (elem) {\n      actualTotal = elem.text().split(\":\");\n      actualTotal = Number(actualTotal[1].trim().replace(\"$\", \"\"));\n      expect(totalPrice).to.equal(actualTotal);\n    });\n    cy.contains(\"Finish\").click();\n    checkoutComplete.getCheckoutComplete().find(\".complete-header\").should('have.text', 'THANK YOU FOR YOUR ORDER');\n    //navigate to home page\n    checkoutComplete.getBackToHome().click();\n    cy.verifyTitle('Products');\n  }\n});",
+              "err": {},
+              "uuid": "2d173166-8423-4eb2-86a1-a48d3f363b41",
+              "parentUUID": "b464a973-388d-478a-af1f-18d36dc575e1",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Negative validation",
+              "fullTitle": "My First Test Negative validation",
+              "timedOut": null,
+              "duration": 4409,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "this.testData.forEach(function (testData) {\n  if (testData.ToBeExecuted === \"Yes\") {\n    //verify title\n    cy.verifyTitle('ProductsA');\n  }\n});",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: expected '<span.title>' to have text 'ProductsA', but the text was 'Products'",
+                "estack": "AssertionError: Timed out retrying after 4000ms: expected '<span.title>' to have text 'ProductsA', but the text was 'Products'\n    at Context.eval (webpack:///./cypress/support/commands.js:35:21)",
+                "diff": "- 'Products'\n+ 'ProductsA'\n"
+              },
+              "uuid": "cdb96a9d-289c-4810-b5e8-be1eac64cbb6",
+              "parentUUID": "b464a973-388d-478a-af1f-18d36dc575e1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2796a6e2-e59c-43c2-b787-df104720053a",
+            "2d173166-8423-4eb2-86a1-a48d3f363b41"
+          ],
+          "failures": [
+            "cdb96a9d-289c-4810-b5e8-be1eac64cbb6"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 8158,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
