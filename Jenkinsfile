@@ -28,9 +28,7 @@ stage('Build'){
 
 post{
     always{
-           sh 'npx mochawesome-merge "Cypress/cypress/results/*.json" > Cypress/mochawesome.json' 
-
-           sh 'npx mochawesome-report-generator Cypress/mochawesome.json' 
+          
 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'cypress/reports/html', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])    }
     success{
         echo "====++++only when successful++++===="
