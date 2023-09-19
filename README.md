@@ -54,6 +54,8 @@ Folder structure:
 
 How to run cypress test case:
 npx cypress run --spec cypress\integration\examples\place-order.test.js --headed --browser edge
+
+System.setProperty("hudson.model.DirectoryBrowserSupport.CSP"," ")
  
  
 How to run Docker image local:
